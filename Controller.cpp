@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "FileWatchlist.h"
 #include "RepositoryExceptions.h"
-
+#include <vector>
 using namespace std;
 
 void Controller::addMovieToRepository(const std::string &title, const std::string &genre, const int &year, const int &like, const std::string &trailer)
@@ -77,4 +77,26 @@ void Controller::removeMovieFromWatchlist(const Filme& m)
 		return;
 
 	this->watchlist->removeFromWatchlist(m);
+}
+
+vector<Filme> Controller::addgenre(const std::string& genre)
+{
+	vector<Filme> v;
+	vector<Filme> movielist = this->repo.getMovies();
+	int nMovies = count_if(movielist.begin(), movielist.end(),
+		[genre](const Filme& m)
+		{
+			return m.getGenre() == genre;
+		});
+
+	vector<Filme> moviesbyGenre(nMovies);
+	copy_if(movielist.begin(), movielist.end(), moviesbyGenre.begin(),
+		[genre](const Filme& m)
+		{
+			return m.getGenre() == genre;
+		});
+
+	for (auto m : moviesbyGenre)
+		v.push_back(m);
+	return v;
 }

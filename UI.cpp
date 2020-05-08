@@ -10,7 +10,7 @@ void UI::printMenu()
 	cout << "Choose: " << endl;
 	cout << "\t 1 - User Mode" << endl;
 	cout << "\t 2 - Admin Mode" << endl;
-	cout << "\t 3 - Exit" << endl;
+	cout << "\t 0 - Exit" << endl;
 }
 
 void UI::printAdminMenu()
@@ -20,7 +20,7 @@ void UI::printAdminMenu()
 	cout << "\t 2 - Remove film" << endl;
 	cout << "\t 3 - Update film" << endl;
 	cout << "\t 4- Show database\n";
-	cout << "\t 5 - Return to main menu" << endl;
+	cout << "\t 0 - Return to main menu" << endl;
 }
 
 void UI::printUserMenu()
@@ -31,7 +31,7 @@ void UI::printUserMenu()
 	cout << "\t 3 - Display watch list" << endl;
 	cout << "\t 4 - Save watch list" << endl;
 	cout << "\t 5 - Open watch list" << endl;
-	cout << "\t 6 - Return to main menu" << endl;
+	cout << "\t 0 - Return to main menu" << endl;
 }
 
 void UI::addMovieToRepo()
@@ -201,6 +201,54 @@ void UI::removeMovieFromWatchlist()
 	}
 }
 
+void UI::view()
+{
+	std::string s;
+	cout << "Please enter a genre you are searching for: ";
+	getline(cin, s);
+	//getline(cin, s);
+	vector<Filme> v;
+	if (s == "")
+	{
+		cout << "The string is empty!" << endl;
+		v= this->ctrl.getRepo().getMovies();
+	}
+	else
+	{
+		v= ctrl.addgenre(s);
+	}
+	int i = 0;
+	bool f = true;
+	while (i != v.size() and f)
+	{
+		v[i].show();
+		cout << "Do you want to play it? (y/n) ";
+		cin >> s;
+		if (s == "y") {
+			v[i].play();
+		}
+		cout << "Do you want to add this film to your watchlist?(y/n) ";
+		cin >> s;
+		if (s == "y")
+		{
+			ctrl.addMovieToWatchlist(v[i]);
+			cout << "Film added succesfully\n";
+		}
+		cout << "Do you want to continue?(y/n) ";
+		cin >> s;
+		if (s == "y")
+		{
+			i++;
+		}
+		else
+		{
+			f = false;
+		}
+	}
+	if (f) cout << "You watched all our films\n";
+}
+
+
 void UI::run()
 {
 	while (true)
@@ -259,7 +307,8 @@ void UI::run()
 				{
 				case 1://search
 				{
-					
+					this->view();
+					break;
 				}
 				case 2:
 				{
@@ -269,6 +318,7 @@ void UI::run()
 						continue;
 					}
 					this->removeMovieFromWatchlist();
+					break;
 				}
 				case 3:
 				{

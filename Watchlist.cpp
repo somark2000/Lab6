@@ -69,3 +69,4 @@ int Watchlist::size()
 {
 	return movielist.size();
 }
+

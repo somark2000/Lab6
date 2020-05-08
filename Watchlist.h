@@ -35,6 +35,7 @@ public:
 	//returns the size of the watch list
 	int size();
 
+
 	virtual ~Watchlist() {}
 };
 

@@ -3,6 +3,7 @@
 #include "FileWatchlist.h"
 #include "MovieValidator.h"
 #include <memory>
+#include <vector>
 
 class Controller
 {
@@ -51,6 +52,8 @@ public:
 	Removes given movie from watchlist
 	*/
 	void removeMovieFromWatchlist(const Filme& movie);
+
+	std::vector<Filme> addgenre(const std::string& genre);
 
 	/*
 	Opens the Watchlist, with an appropriate application.
